@@ -20,5 +20,11 @@ namespace SalesWebMVC.Services
         {
             return _context.Seller.ToList(); // Acessa a fonte de dados relacionada a tabela Sellers e converte  em uma lista.
         }
+
+        public void Insert(Seller obj) // Método para inserir vendedor no BD
+        {
+            _context.Add(obj);
+            _context.SaveChanges(); // Confirma a inclusão no BD
+        }
     }
 }

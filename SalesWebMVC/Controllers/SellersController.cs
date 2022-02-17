@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SalesWebMVC.Services;
+using SalesWebMVC.Models;
 
 namespace SalesWebMVC.Controllers
 {
@@ -21,6 +22,22 @@ namespace SalesWebMVC.Controllers
             var list = _sellerService.FindAll(); // Model  - controlador acessa o model e pega os dados em lista
 
             return View(list); // View - controlador encaminha os dados para view
-        }         
+        } 
+        
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost] // Anotation - indica ação de post
+        [ValidateAntiForgeryToken] 
+        /* Previnir ataque CSRF - Cross-site Request Forgery (CSRF) é um tipo de ataque de websites maliciosos.
+        Um ataque CSRF às vezes é chamado de ataque de um clique ou transporte de sessão. Esse tipo de ataque
+        envia solicitações desautorizadas de um usuário no qual o website confia.*/
+        public IActionResult Create(Seller seller)
+        {
+            _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index)); // Redireciona para a pagina index/seller.
+        }
     }
 }
