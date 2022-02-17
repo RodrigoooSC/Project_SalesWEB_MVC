@@ -22,7 +22,7 @@ namespace SalesWebMVC.Services
         }
 
         public void Insert(Seller obj) // Método para inserir vendedor no BD
-        {
+        {            
             _context.Add(obj);
             _context.SaveChanges(); // Confirma a inclusão no BD
         }
