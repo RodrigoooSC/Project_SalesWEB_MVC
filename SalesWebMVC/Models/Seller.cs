@@ -12,6 +12,7 @@ namespace SalesWebMVC.Models // Um vendedor possui um departamento
         public DateTime BirthDate { get; set; }
         public double BaseSalary { get; set; }
         public Department Department { get; set; } // Instanciar o departamento
+        public int DepartmentId { get; set; } // Avisa o entity framework que o id deve existir e não pode ser nulo
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>(); // Associação do vendedor com as venda
 
         public Seller()
