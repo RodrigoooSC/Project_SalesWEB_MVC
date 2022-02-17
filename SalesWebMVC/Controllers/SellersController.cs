@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SalesWebMVC.Services;
 using SalesWebMVC.Models;
 using SalesWebMVC.Models.ViewModels;
+using SalesWebMVC.Services.Exceptions;
 
 namespace SalesWebMVC.Controllers
 {
@@ -25,8 +26,8 @@ namespace SalesWebMVC.Controllers
             var list = _sellerService.FindAll(); // Model  - controlador acessa o model e pega os dados em lista
 
             return View(list); // View - controlador encaminha os dados para view
-        } 
-        
+        }
+
         public IActionResult Create()
         {
             var departments = _departmentService.FindAll();
@@ -35,7 +36,7 @@ namespace SalesWebMVC.Controllers
         }
 
         [HttpPost] // Anotation - indica ação de post
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         /* Previnir ataque CSRF - Cross-site Request Forgery (CSRF) é um tipo de ataque de websites maliciosos.
         Um ataque CSRF às vezes é chamado de ataque de um clique ou transporte de sessão. Esse tipo de ataque
         envia solicitações desautorizadas de um usuário no qual o website confia.*/
@@ -47,13 +48,13 @@ namespace SalesWebMVC.Controllers
 
         public IActionResult Delete(int? id) //int? - opcional
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound(); // Retorna uma resposta básica
             }
 
             var obj = _sellerService.FindById(id.Value);
-            if(obj == null)
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -83,6 +84,46 @@ namespace SalesWebMVC.Controllers
             return View(obj);
         }
 
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
 
+            List<Department> departments = _departmentService.FindAll(); // Carrega lista de departamentos.
+            SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Seller seller)
+        {
+
+            if (id != seller.Id) // Se o Id do vendedor for diferente do Id da requisição
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _sellerService.Update(seller);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
