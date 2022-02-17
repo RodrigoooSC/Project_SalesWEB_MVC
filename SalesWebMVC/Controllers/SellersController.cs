@@ -12,7 +12,7 @@ namespace SalesWebMVC.Controllers
     public class SellersController : Controller
     {
         private readonly SellerService _sellerService; // Declarar a depedencia do SellerService.
-        private readonly DepartmentService _departmentService;
+        private readonly DepartmentService _departmentService; // Declarar a depedencia do DepartmentService.
 
         public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
@@ -43,6 +43,29 @@ namespace SalesWebMVC.Controllers
         {
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index)); // Redireciona para a pagina index/seller.
+        }
+
+        public IActionResult Delete(int? id) //int? - opcional
+        {
+            if(id == null)
+            {
+                return NotFound(); // Instancia uma resposta básica
+            }
+
+            var obj = _sellerService.FindById(id.Value);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
