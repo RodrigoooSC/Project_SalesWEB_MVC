@@ -43,6 +43,13 @@ namespace SalesWebMVC.Controllers
         envia solicitações desautorizadas de um usuário no qual o website confia.*/
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid) // Verificar se os campos foram validados 
+            {
+                var departments = _departmentService.FindAll(); // Carrega os departamentos
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments }; // Cria o ViewModel passando o seller e o department  
+                return View(viewModel); // Enquanto os campos não forem validados ele retorna a tela de create
+            }
+
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index)); // Redireciona para a pagina index/seller.
         }
@@ -106,6 +113,12 @@ namespace SalesWebMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
+            if (!ModelState.IsValid) // Verificar se os campos foram validados 
+            {
+                var departments = _departmentService.FindAll(); // Carrega os departamentos
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments }; // Cria o ViewModel passando o seller e o department  
+                return View(viewModel); // Enquanto os campos não forem validados ele retorna a tela de create
+            }
 
             if (id != seller.Id) // Se o Id do vendedor for diferente do Id da requisição
             {

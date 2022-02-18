@@ -8,18 +8,26 @@ namespace SalesWebMVC.Models // Um vendedor possui um departamento
     public class Seller
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "{0} required")] // Campo requirido onde {0} pega o nome do atributo
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "{0} size should be between {2} and {1}")] // Limitar caracteres, colocar mensagem de erro
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "{0} required")]
+        [EmailAddress(ErrorMessage = "Enter a valid email")]
         [DataType(DataType.EmailAddress)]// Definir formatação de email
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "{0} required")]        
         [Display (Name = "Birth Date")] // Definir formatação da label
         [DataType(DataType.Date)] // Definir formatação da data
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")] // Definir formatação da data
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")] // Definir formatação da data        
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "{0} required")]
         [Display(Name = "Base Salary")]
-        [DisplayFormat(DataFormatString = "{0:F2}")] // Definir formtação de valores
+        [Range(100.0, 50000.0, ErrorMessage = "{0} must be from {1} to {2}")] // Definir faixa de valores min-max
+        [DisplayFormat(DataFormatString = "{0:F2}")] // Definir formatação de valores
         public double BaseSalary { get; set; }
 
         public Department Department { get; set; } // Instanciar o departamento
