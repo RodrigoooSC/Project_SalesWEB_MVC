@@ -23,29 +23,36 @@ namespace SalesWebMVC.Services
             return await _context.Seller.ToListAsync(); // Acessa a fonte de dados relacionada a tabela Sellers e converte  em uma lista.
         }
 
-        public async Task InsertAsync(Seller obj) // Método para inserir vendedor no BD
+        public async Task InsertAsync(Seller obj) // Método para inserir vendedor no BD.
         {
             _context.Add(obj);
-            await _context.SaveChangesAsync(); // Confirma a inclusão no BD
+            await _context.SaveChangesAsync(); // Confirma a inclusão no BD.
         }
 
-        public async Task<Seller> FindByIdAsync(int id) // Metodo que retorna o vendedor que possui o id
+        public async Task<Seller> FindByIdAsync(int id) // Metodo que retorna o vendedor que possui o id.
         {
             return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         public async Task RemoveAsync(int id) // Recebe o id e remove o vendedor do BD.
         {
-            var obj =await  _context.Seller.FindAsync(id);
-            _context.Seller.Remove(obj);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var obj = await _context.Seller.FindAsync(id);
+                _context.Seller.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new IntegrityException("Cant't delete seller because he/she has sales");
+            }
         }
 
         public async Task UpdateAsync(Seller obj)
         {
             bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
 
-            if (!hasAny) // Se não existir o vedendor com id igual
+            if (!hasAny) // Se não existir o vedendor com id igual.
             {
                 throw new NotFiniteNumberException("Id not found");
             }
