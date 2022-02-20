@@ -1,5 +1,5 @@
 # Project_SalesWeb_MVC
-Oi pessoal, tudo bem?🖖🏽 Este é o projeto final desenvolvido no curso de C# do <a href="https://www.linkedin.com/in/nelio-alves/?originalSubdomain=br">prof. Nelio Alves</a>
+Oi pessoal, tudo bem?🖖🏽 Este é o projeto final desenvolvido no curso de C# do <a href="https://www.linkedin.com/in/nelio-alves/?originalSubdomain=br">Prof. Nelio Alves</a>
 
 <h3># Sobre o projeto 📚</h3>
 <p>O projeto faz a simulação de uma aplicação web de cadastro/consulta de vendas por departamentos/vendedores, possuindo as seguintes funcionalidades:</p>
