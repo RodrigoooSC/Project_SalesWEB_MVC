@@ -8,7 +8,7 @@ Oi pessoal, tudo bem?🖖🏽 Este é o projeto final desenvolvido no curso de C
 <li>Details (exibi os detalhes do cadastro)</li>
 <li>Delete (exclui o cadastro)</li>
 <br>
-<p>O projeto foi desenvolvido utilizando o framework ASP.NET Core, com o padrão de projeto MVC(Model-View-Controller) é Razor Pages um molde de 
+<p>O projeto foi desenvolvido utilizando o framework ASP.NET Core, com o padrão de projeto MVC(Model-View-Controller) e Razor Pages um molde de 
 programação baseado em página que torna a criação da interface do usuário mais fácil e produtiva.<p>  
 <hr/>
 <h3># Tecnologias utilizadas ⚙</h3>
